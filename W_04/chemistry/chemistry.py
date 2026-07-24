@@ -1,4 +1,4 @@
-
+from formula import parse_formula
 def main():
     """
     1. Asks the user for a chemical formula.
@@ -155,5 +155,30 @@ def compute_molar_mass(symbol_quantity_list, periodic_table_dict):
     Returns: 
         float
     """
+    # Define index constants for readability
+    ELEMENT_SYMBOL_INDEX = 0
+    QUANTITY_INDEX= 1
+
+    ELEMENT_NAME_INDEX = 0
+    ATOMIC_MASS_INDEX = 1
+
+    total_molar_mass = 0.0
+     
+    # Loop through each item in the order list
+    for item in symbol_quantity_list:
+        symbol = item[ELEMENT_SYMBOL_INDEX]
+        quantity = item[QUANTITY_INDEX]
+        
+        # Look up the key in the dictionary to get its info list
+        element_list = periodic_table_dict[symbol]
+        
+        # Access the price from the info list using its index constant
+        element_mass = element_list[ATOMIC_MASS_INDEX]
+        
+        # Multiply and add to total
+        molar_mass += element_mass * quantity
+
+    return molar_mass
+    
 if __name__ == "__main__":
     main()
