@@ -1,6 +1,7 @@
 # Copyright 2020, Brigham Young University-Idaho. All rights reserved.
 
-from chemistry import make_periodic_table
+from W_04.chemistry.chemistry import make_periodic_table, compute_molar_mass
+from W_04.chemistry.formula import parse_formula, FormulaError
 from pytest import approx
 import pytest
 
@@ -151,6 +152,84 @@ def check_element(periodic_table_dict, symbol, expected):
             f"wrong atomic mass for {exp_name}: " \
             f"expected {exp_mass} but found {act_mass}"
 
+
+def test_parse_formula():
+    """Verify that the parse_formula function works correctly.
+
+    Parameters: none
+    Return: nothing
+    """
+    # Call the make_periodic_table function
+    # and verify that it returns a dictionary.
+    periodic_table_dict = make_periodic_table()
+    assert isinstance(periodic_table_dict, dict), \
+        "make_periodic_table function must return a dictionary: " \
+        f" expected a dictionary but found a {type(periodic_table_dict)}"
+
+    # Call the parse_formula function and
+    # verify that it returns a list.
+    sym_quant_list = parse_formula("H2O", periodic_table_dict)
+    assert isinstance(sym_quant_list, list), \
+        "parse_formula function must return a list: " \
+        f" expected a list but found a {type(sym_quant_list)}"
+
+    # Call the compute_molar_mass function four times and
+    # verify that it returns the correct number each time.
+    assert parse_formula("H2O", periodic_table_dict) \
+            == [("H",2), ("O",1)]
+    assert parse_formula("C6H6", periodic_table_dict) \
+            == [("C",6), ("H",6)]
+    assert parse_formula("(C2(NaCl)4H2)2C4Na", periodic_table_dict) \
+            == [("C",8), ("Na",9), ("Cl",8), ("H",4)]
+    assert parse_formula("Co", periodic_table_dict) \
+            == [("Co",1)]
+
+    # Call the parse_formula function six times, each time
+    # with a different invalid chemical formula. Verify that
+    # parse_formula function raises an exception each time.
+    with pytest.raises(FormulaError):
+        parse_formula("L", periodic_table_dict)
+    with pytest.raises(FormulaError):
+        parse_formula("4H", periodic_table_dict)
+    with pytest.raises(FormulaError):
+        parse_formula("H2L4", periodic_table_dict)
+    with pytest.raises(FormulaError):
+        parse_formula("-H", periodic_table_dict)
+    with pytest.raises(FormulaError):
+        parse_formula("(H2O", periodic_table_dict)
+    with pytest.raises(FormulaError):
+        parse_formula("H2)O3", periodic_table_dict)
+
+
+def test_compute_molar_mass():
+    """Verify that the compute_molar_mass function works correctly.
+
+    Parameters: none
+    Return: nothing
+    """
+    # Call the make_periodic_table function
+    # and verify that it returns a dictionary.
+    periodic_table_dict = make_periodic_table()
+    assert isinstance(periodic_table_dict, dict), \
+        "make_periodic_table function must return a dictionary: " \
+        f" expected a dictionary but found a {type(periodic_table_dict)}"
+
+    # Call the compute_molar_mass function
+    # and verify that it returns a number.
+    molar_mass = compute_molar_mass([["O",2]], periodic_table_dict)
+    assert isinstance(molar_mass, int) or isinstance(molar_mass, float), \
+        "compute_molar_mass function must return a number: " \
+        f" expected a number but found a {type(molar_mass)}"
+
+    # Call the compute_molar_mass function four times and
+    # verify that it returns the correct number each time.
+    assert compute_molar_mass([], periodic_table_dict) == 0
+    assert compute_molar_mass([["O",2]], periodic_table_dict) \
+            == approx(31.9988)
+    assert compute_molar_mass([["C",6],["H",6]], periodic_table_dict) \
+            == approx(78.11184)
+    assert compute_molar_mass([["C",13],["H",16],["N",2],["O",2]],
+            periodic_table_dict) == approx(232.27834)
 
 
 # Call the main function that is part of pytest so that the
