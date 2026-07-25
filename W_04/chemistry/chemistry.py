@@ -1,4 +1,14 @@
+"""
+Program: W04 Chemistry
+Author: Michael Heiner
+
+Description: The program calculates the molar mass of a chemical sample based on user-provided chemical formula and mass of sample.
+
+
+"""
+
 from formula import parse_formula
+
 def main():
     """
     1. Asks the user for a chemical formula.
@@ -21,6 +31,35 @@ def main():
     Returns: 
         (none)
     """
+    # * ask user for chemical common name 
+    # * common_name = ('Enter the common name of the sample: ')
+    # * search for and get the molecular formula 
+    # * if the the common name is not found  
+    # Asks the user for a chemical formula.
+    formula = input('Enter the molecular formula of the sample: ')
+
+    # Asks the user for the sample size in grams.
+    size = float(input('Enter the mass in grams of the sample: '))
+
+    # Call make_periodic_table function and store returned dictionary in variable.
+    periodic_table_dict = make_periodic_table()
+        
+    # Call parse_formula (from provided library) to get a list of elements in formula. (store in a variable).
+    symbol_quantity_list = parse_formula(formula, periodic_table_dict)
+
+    # Call compute_molar_mass to calculate the molar mass. Pass in the periodic table dictionary and element list returned from the previous functions.
+    molar_mass = compute_molar_mass(symbol_quantity_list, periodic_table_dict)
+
+    # Display the molar mass.
+    print(f'{molar_mass:.5f} grams/mole')
+
+    # Calculate Number of moles in the sample.
+    moles = size / molar_mass 
+    
+    # Display the Number of moles.
+    print(f'{moles:.5f} moles')
+
+    # * print(f'The formula for {common_name} is {formula}.\nYour sample has molar mass of {molar_mass:.5f}, with {moles:.5f} moles.)
 
 def make_periodic_table():
     """
@@ -157,22 +196,22 @@ def compute_molar_mass(symbol_quantity_list, periodic_table_dict):
     """
     # Define index constants for readability
     ELEMENT_SYMBOL_INDEX = 0
-    QUANTITY_INDEX= 1
+    QUANTITY_INDEX = 1
 
-    ELEMENT_NAME_INDEX = 0
+    # ELEMENT_NAME_INDEX = 0
     ATOMIC_MASS_INDEX = 1
 
-    total_molar_mass = 0.0
+    molar_mass = 0.0
      
-    # Loop through each item in the order list
+    # Loop through each item in the symbol quantity list
     for item in symbol_quantity_list:
         symbol = item[ELEMENT_SYMBOL_INDEX]
         quantity = item[QUANTITY_INDEX]
         
-        # Look up the key in the dictionary to get its info list
+        # Look up the key in the dictionary to get its element list
         element_list = periodic_table_dict[symbol]
         
-        # Access the price from the info list using its index constant
+        # Access the atomic mass from the element list using its index constant
         element_mass = element_list[ATOMIC_MASS_INDEX]
         
         # Multiply and add to total

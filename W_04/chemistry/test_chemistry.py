@@ -1,7 +1,7 @@
 # Copyright 2020, Brigham Young University-Idaho. All rights reserved.
 
-from W_04.chemistry.chemistry import make_periodic_table, compute_molar_mass
-from W_04.chemistry.formula import parse_formula, FormulaError
+from chemistry import make_periodic_table, compute_molar_mass
+from formula import parse_formula, FormulaError
 from pytest import approx
 import pytest
 
