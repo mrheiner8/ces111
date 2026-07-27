@@ -3,8 +3,12 @@ def main():
     # Read the contents of a text file
     # named plants.txt into a list.
     text_list = read_list("plants.txt")
+
+   
+
     # Print the entire list.
     print(text_list)
+
 def read_list(filename):
     """Read the contents of a text file into a list and
     return the list. Each element in the list will contain
