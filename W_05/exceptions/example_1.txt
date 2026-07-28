@@ -1,0 +1,71 @@
+"""What Is an Exception?
+An exception is a relatively rare event that sometimes occurs while a program is running. For example, an exception occurs when a Python program tries to open a file for reading but that file doesn’t exist. There are many different built-in exceptions that may occur while a Python program is running.
+
+When an exceptional event occurs, a Python function raises an exception which may be handled by code at another location in the executing Python program. The Python keyword to raise an exception is raise. Normally, you will not need to write code to raise an exception because the built-in functions, such as open, int, and float, will raise an exception when necessary. You will need to write code in your programs to handle exceptions.
+
+How to Handle an Exception
+The Python keywords to handle exceptions are try, except, else, and finally. The following example code contains the outline of a complete try-except-else-finally block. Read the code and its comments carefully to understand the correct syntax and organization of a try-except-else-finally block."""
+
+# Example 1
+try:
+# Write normal code here. This block must include
+# code that falls into two groups:
+# 1. Code that may cause an exception to be raised
+# 2. Code that depends on the results of the code
+# in the first group
+
+except ZeroDivisionError as zero_div_err:
+# Code that the computer executes if the code in the try
+# block caused a function to raise a ZeroDivisionError.
+
+except ValueError as val_err:
+# Code that the computer executes if the code in the
+# try block caused a function to raise a ValueError.
+
+except (TypeError, KeyError, IndexError) as error:
+# Code that the computer executes if the code in the
+# try block caused a function to raise a TypeError,
+# KeyError, or IndexError.
+
+except Exception as excep:
+# Code that the computer executes if the code in the try
+# block caused a function to raise any exception that
+# was not handled by one of the previous except blocks.
+
+except:
+# Code that the computer executes if the code in the
+# try block caused a function to raise anything that
+# was not handled by one of the previous except blocks.
+
+else:
+# Code that the computer executes after the code
+# in the try block if the code in the try block
+# did not cause any function to raise an exception.
+
+finally:
+# Code that the computer executes after all the other
+# code in try, except, and else blocks regardless of
+# whether an exception was raised or not.
+
+
+"""As shown in example 1 above, when we want to write code that will handle exceptions, we first write a try block, and we put into that try block the normal code that might cause an exception. Then we write except blocks to handle the exceptions. Each except block may handle one type of exception like the code at line 17:"""
+except ZeroDivisionError as zero_div_err:
+
+"""Or each except block may handle several types of exceptions, like the code at line 25:"""
+except (TypeError, KeyError, IndexError) as error:
+
+"""Or one except block may handle all possible types of exceptions, like the code at line 30:"""
+except Exception as excep:
+
+"""Or a bare except block may handle anything that can be raised, including SystemExit, KeyboardInterrupt and GeneratorExit, like the code at line 22:"""
+except:
+
+"""The Python programming language requires us to order except blocks from most specific at the top to least specific (most general) at the bottom.
+
+In a Python program, it is usually a bad idea to write a bare except block (line 22) because a bare except block will handle KeyboardInterrupt and SystemExit. Writing code to handle KeyboardInterrupt, including a bare except block, may make it difficult for a user to quit your program. The most common reason to write try and except blocks is to write code that will enable a program to recover from an error. Writing recovery code is easiest in an except block that includes the exception type like the except blocks at lines 8, 11, and 14. This is why professional programmers rarely write bare except blocks.
+
+As shown at line 26 in example 1 above, following the except blocks, a programmer may write an optional else block which the computer will execute if the try block does not raise any exceptions. However, it is uncommon to write an else block for try and except blocks because any code that could be written in an else block of try and except could also be written at the end of the try block. Professional programmers almost never write an else block for try and except blocks.
+
+As shown at line 30 in example 1 above, at the end of the exception handling code, a programmer may write an optional finally block. The finally block contains code that the computer executes after all the other code in the try, except, and else blocks regardless of whether an exception was raised or not. The code in the finally block usually contains “clean up” code that frees resources that the code in the try block used. For example, if the code in the try block opens a file, the code in the finally block could close that file. In CSE 111, you won’t need to write a finally block.
+
+To summarize, in CSE 111 you will need to write try and except blocks to handle exceptions. You will not need to write bare except blocks, else blocks, or finally blocks to handle exceptions."""
