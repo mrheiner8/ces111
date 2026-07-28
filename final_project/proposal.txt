@@ -1,0 +1,58 @@
+Michael Heiner
+CSE 111 Proposal for a Student Chosen Program
+
+    (This is a proposal. All proposals are written with our best
+    knowledge at the beginning of a project. As we progress from the
+    beginning to the end of a project, we gain more knowledge, and we
+    change some of our proposed ideas. This is part of completing any
+    project and is fine.  However, we still must write a proposal so
+    that our teachers or supervisors know what we intend to do. Please
+    answer each of the following questions to the best of your
+    knowledge.)
+
+1. What is the title of your program?
+	Music transposition tool
+
+2. What real-world problem will your program address or help to solve?
+	Many musicians like those that play the French Horn (key of F), Trumpet (key of B flat), Alto and Bari Sax(key of E flat) need to transpose music from time to time. This tool will be designed with instrumentalists in mind but can be easily modified for others like vocalist that just need to transpose from one key to another.
+
+3. What will you learn from developing this program?
+	How to manipulate list indices or dictionaries to perform modular arithmetic (shifting notes around a 12-note chromatic scale), how to read/write melody files, and how to test note transformation functions using pytest.  
+
+4. What Python modules will your program use?
+
+    csv, math, and pytest,
+
+5. List the names of functions you will need?
+
+
+    1. get_instrument_name(inst_name)
+
+        Takes the name of the provided instrument and assigns it a spot that is a distance away from “C”
+
+    2. get_key_signature_sharps_flats(key_name)
+
+        Takes a key name string (e.g., "G major") and returns the number of sharps or flats in the key signature (e.g., "+1 sharp") and lists their note names (e.g. F sharp). For the key of A major return A Major, 3 sharps; F sharp, C sharp, and G sharp 
+
+    3. transpose_note(note, semitones)
+
+        Takes a note string (e.g., "C") and integer shift (e.g., 2), and returns the new note (e.g., "D").
+
+    4. transpose_melody(notes_list, semitones)
+
+        Takes a list of notes and returns a new list with all notes transposed.
+
+    5. read_notes_file(filename)
+
+        Opens and reads a text file containing song notes into a list.
+
+    6. main()
+
+        Asks the user for input (starting instrument/key, target instrument/key, input file) and displays the results.
+
+6. List the names of the test functions you will write.
+
+test_get_instrument_name()
+test_transpose_note()
+test_get_key_signature_sharps_flats()
+test_transpose_melody()
