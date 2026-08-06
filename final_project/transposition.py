@@ -8,8 +8,8 @@ Description:
 """
 import csv
 
+# Key Signature information
 KEYS_INFO = {
-    # Natural / Base Keys
     "c major": "C Major: 0 accidentals",
     "a minor": "A Minor: 0 accidentals",
     "g major": "G Major: 1 sharp (F#)",
@@ -41,6 +41,10 @@ KEYS_INFO = {
     "cb major": "Cb Major: 7 flats (Bb, Eb, Ab, Db, Gb, Cb, Fb)",
     "ab minor": "Ab Minor: 7 flats (Bb, Eb, Ab, Db, Gb, Cb, Fb)",
 }
+
+# Chromatic Scale with sharps 
+NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
 def main():
     """Asks the user for input (starting instrument/key, target instrument/key, input file) and displays the results."""
 
@@ -89,16 +93,46 @@ def get_instrument_name(user_instrument_name, instrument_dict):
 
 
 def get_key_signature_sharps_flats(key_name):
-    """Takes a key name string (e.g., "G major") and returns the number of sharps or flats in the key signature (e.g., "+1 sharp") and lists their note names (e.g. F sharp). For the key of A major return A Major, 3 sharps; F sharp, C sharp, and G sharp 
     """
-"""
-    3. transpose_note(note, semitones)
-        Takes a note string (e.g., "C") and integer shift (e.g., 2), and returns the new note (e.g., "D").
+    Takes a key name string (e.g., "G major") and returns the number of sharps or flats in the key signature (e.g., "+1 sharp") and lists their note names (e.g. F sharp). For the key of A major return A Major, 3 sharps; F sharp, C sharp, and G sharp 
 
-    4. transpose_melody(notes_list, semitones)
+    Parameters:
+        key_name: user provided. name of the key that the sample piece of music is written in. (major, or relative minor)
+    Return Type:
+        A str with key name and signature (the sharps or flats written on the staff) 
+    """
+    clean_key = key_name.strip().lower()
+
+    return KEYS_INFO.get(clean_key)
+
+
+def transpose_note(sample_note, halftones):
+    """
+    Takes a note string (e.g., "C") and integer shift (e.g., 2), and returns the new note (e.g., "D").
+
+    Parameters:
+        sample_note: user provided. note name
+        halftones: user provided. name of the key that the sample piece of music is written in. (major, or relative minor)
+    Return Type:
+        a str with the new transposed note 
+    """
+    #Clean up note name
+    clean_note = sample_note.strip().upper()
+
+    # find index position of sample note
+    index = NOTES.index(clean_note)
+
+    # calculate new index and wraparound using modulo 12
+    new_index =(index + halftones) % 12
+
+    return NOTES[new_index]
+
+
+"""
+    4. def transpose_melody(notes_list, halftones):
         Takes a list of notes and returns a new list with all notes transposed.
 
-    5. read_notes_file(filename)
+    5. def read_notes_file(filename):
         Opens and reads a text file containing song notes into a list."""
 
 # Call main to start this program.
