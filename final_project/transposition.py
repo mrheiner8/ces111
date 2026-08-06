@@ -45,6 +45,20 @@ KEYS_INFO = {
 # Chromatic Scale with sharps 
 NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
+# Flat inputs -> Standard Sharp Scale
+# Rare sharp inputs -> Natural Scale
+NOTE_TRANSLATION = {
+    "BB": "A#",
+    "DB": "C#",
+    "EB": "D#",
+    "GB": "F#",
+    "AB": "G#",
+    "CB": "B",
+    "FB": "E",   
+    "E#": "F",
+    "B#": "C"
+}
+
 def main():
     """Asks the user for input (starting instrument/key, target instrument/key, input file) and displays the results."""
 
@@ -134,7 +148,7 @@ def transpose_note(sample_note, halftones):
         sample_note: user provided. note name
         halftones: user provided. name of the key that the sample piece of music is written in. (major, or relative minor)
     Return Type:
-        a str with the new transposed note 
+        A str with the new transposed note. 
     """
     #Clean up note name
     clean_note = sample_note.strip().upper()
@@ -152,11 +166,10 @@ def transpose_melody(sample_notes_list, halftones):
         """Takes a list of notes and returns a new list with all notes transposed.
         
         Parameters:
-                sample_notes_list: user provided. list of note note names.
-                halftones: user provided. name of the key that the sample piece of music is written in. (major, or relative minor)
-            Return Type:
-                a str with the new list of transposed notes 
-        
+            sample_notes_list: user provided. list of note note names.
+            halftones: user provided. name of the key that the sample piece of music is written in. (major, or relative minor)
+        Return Type:
+            A list of strings representing the transposed notes.
         """
 
 
