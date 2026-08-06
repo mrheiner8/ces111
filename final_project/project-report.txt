@@ -19,11 +19,10 @@ doing any of the following:
             Time Spent
    Date       (hours)   Description of Work
 ----------  ----------  -------------------------
-2026-07-28      1.5     Researched topics
-2026-08-03      1.8     Set up files and researched key signatures, set up file structure and read file for instruments.csv 
-2026-08-04      1.7     Wrote one function and one function test. Set some Const values. Added doc strings.
+2026-08-03      2     Set up files and researched key signatures, set up file structure and read file for instruments.csv 
+2026-08-04      2     Wrote one function and one function test. Set some Const values. Added doc strings.
 2026-08-05      2.5     Wrote two functions and two function test. Set const value for chromatic scale. Ran pytest and fixed instrument .csv
-2026-08-06      1.2     Set up enharmonic equivalents table, added new const values, and prepared my input and out put statements.
+2026-08-06      1.5     Set up enharmonic equivalents table, added new const values, and prepared my input and out put statements.
 
 
 
