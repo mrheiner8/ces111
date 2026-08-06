@@ -45,6 +45,9 @@ KEYS_INFO = {
 # Chromatic Scale with sharps 
 NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
+# Chromatic Scale with flats
+FLAT_NOTES = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
+
 # Flat inputs -> Standard Sharp Scale
 # Rare sharp inputs -> Natural Scale
 NOTE_TRANSLATION = {
