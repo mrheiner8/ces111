@@ -74,7 +74,27 @@ def read_instruments(filename):
             key_offset = int(row[1])
             instrument_dict[instrument_name] = key_offset
     return instrument_dict  
+"""
+sample_instrument = input("What is your target instrument of choice?: ") alto saxophone
 
+target_instrument = input("What instrument does your music sample come from?: ") trumpet
+
+key_name = input("What key is you sample music in?: ") C major
+
+sample_notes = input("What are the note names you need transposed?: ") c, d, e, f, g, a, b, c
+
+print(f"/nYour transposed key signature is {G Major: 1 sharp (F#)}")
+
+print(f"/nYour transposed note names are: {G, B, A, C, D, E, F#, G}")
+
+
+
+If the returned key was F major it would read
+
+Your transposed key signature is F Major: 1 flat (Bb)
+
+Your transposed note names are: F, G, Bb, A, C, D, E, F 
+"""
 
 
 def get_instrument_name(user_instrument_name, instrument_dict):
@@ -128,12 +148,17 @@ def transpose_note(sample_note, halftones):
     return NOTES[new_index]
 
 
-"""
-    4. def transpose_melody(notes_list, halftones):
-        Takes a list of notes and returns a new list with all notes transposed.
+def transpose_melody(sample_notes_list, halftones):
+        """Takes a list of notes and returns a new list with all notes transposed.
+        
+        Parameters:
+                sample_notes_list: user provided. list of note note names.
+                halftones: user provided. name of the key that the sample piece of music is written in. (major, or relative minor)
+            Return Type:
+                a str with the new list of transposed notes 
+        
+        """
 
-    5. def read_notes_file(filename):
-        Opens and reads a text file containing song notes into a list."""
 
 # Call main to start this program.
 if __name__ == "__main__":
