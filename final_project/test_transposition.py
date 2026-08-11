@@ -3,9 +3,9 @@ from transposition import get_instrument_name
 from transposition import get_key_signature_sharps_flats
 
 from transposition import transpose_note
-"""
+
 from transposition import transpose_melody
-"""
+
 import pytest
 
 def test_get_instrument_name():
@@ -19,7 +19,7 @@ def test_get_instrument_name():
     assert get_instrument_name("  TRUMPET ", sample_dict) == -2
 
     # Test missing key
-    assert get_instrument_name("melophone", sample_dict) is None
+    assert get_instrument_name("mellophone", sample_dict) is None
 
 
 def test_get_key_signature_sharps_flats():
@@ -43,9 +43,18 @@ def test_transpose_note():
     # Test 0
     assert transpose_note("C",0) == "C"
 
-"""
+
 def test_transpose_melody():
-"""
+    sample = ["A#", "C", "D", "D#", "F", "G", "A"]    
+    # Test positive integer (trumpet to alto saxophone)
+    assert transpose_melody(sample, 5) == ["D#", "F", "G", "G#", "A#", "C", "D"]
+
+    # Test negative integer (trumpet to flute)
+    assert transpose_melody(sample, -2) == ["G#", "A#", "C", "C#", "D#", "F", "G"]
+
+    # Test 0 (trumpet to clarinet)
+    assert transpose_melody(sample, 0) == ["A#", "C", "D", "D#", "F", "G", "A"]
+
 
 # Call the main function that is part of pytest so that the
 # computer will execute the test functions in this file.

@@ -71,7 +71,35 @@ def main():
     # Print the dictionary to verify it loaded correctly!
     print(instruments_dict)
 
+    # Get instrument input
+    source_instrument_input = input("What is your target instrument of choice?: ") 
+    target_instrument_input = input("What instrument is your source music written for?: ") 
 
+    # get offset variables
+    source_offset = get_instrument_name(source_instrument_input, instruments_dict)
+    target_offset = get_instrument_name(target_instrument_input, instruments_dict)
+
+    #calculate net offset
+    net_offset = source_offset - target_offset
+
+    # get key input
+    key_name = input("What key is you source music in?: ") 
+
+    #get note input
+    source_notes = input("What are the note names you need transposed (separated by commas, e.g., c, d#, eb): ") 
+
+
+"""
+print(f"/nYour transposed key signature is {G Major: 1 sharp (F#)}")
+
+print(f"/nYour transposed note names are: {G, B, A, C, D, E, F#, G}")
+
+If the returned key was F major it would read
+
+Your transposed key signature is F Major: 1 flat (Bb)
+
+Your transposed note names are: F, G, Bb, A, C, D, E, F 
+"""
 def read_instruments(filename):
     """
     This function reads the instrument data from the csv file passed to the function in the filename parameter. The dictionary key is contained in the csv data column indicated by the key_column_index parameter, the value of each dictionary item is the list derived from the values in the row of the csv file. Function returns a dictionary of instruments.
@@ -91,27 +119,6 @@ def read_instruments(filename):
             key_offset = int(row[1])
             instrument_dict[instrument_name] = key_offset
     return instrument_dict  
-"""
-sample_instrument = input("What is your target instrument of choice?: ") alto saxophone
-
-target_instrument = input("What instrument does your music sample come from?: ") trumpet
-
-key_name = input("What key is you sample music in?: ") C major
-
-sample_notes = input("What are the note names you need transposed?: ") c, d, e, f, g, a, b, c
-
-print(f"/nYour transposed key signature is {G Major: 1 sharp (F#)}")
-
-print(f"/nYour transposed note names are: {G, B, A, C, D, E, F#, G}")
-
-
-
-If the returned key was F major it would read
-
-Your transposed key signature is F Major: 1 flat (Bb)
-
-Your transposed note names are: F, G, Bb, A, C, D, E, F 
-"""
 
 
 def get_instrument_name(user_instrument_name, instrument_dict):
@@ -134,7 +141,7 @@ def get_key_signature_sharps_flats(key_name):
     Takes a key name string (e.g., "G major") and returns the number of sharps or flats in the key signature (e.g., "+1 sharp") and lists their note names (e.g. F sharp). For the key of A major return A Major, 3 sharps; F sharp, C sharp, and G sharp 
 
     Parameters:
-        key_name: user provided. name of the key that the sample piece of music is written in. (major, or relative minor)
+        key_name: user provided. name of the key that the source piece of music is written in. (major, or relative minor)
     Return Type:
         A str with key name and signature (the sharps or flats written on the staff) 
     """
@@ -143,20 +150,20 @@ def get_key_signature_sharps_flats(key_name):
     return KEYS_INFO.get(clean_key)
 
 
-def transpose_note(sample_note, halftones):
+def transpose_note(source_note, halftones):
     """
     Takes a note string (e.g., "C") and integer shift (e.g., 2), and returns the new note (e.g., "D").
 
     Parameters:
-        sample_note: user provided. note name
-        halftones: user provided. name of the key that the sample piece of music is written in. (major, or relative minor)
+        source_note: user provided. note name
+        halftones: user provided. name of the key that the source piece of music is written in. (major, or relative minor)
     Return Type:
         A str with the new transposed note. 
     """
     #Clean up note name
-    clean_note = sample_note.strip().upper()
+    clean_note = source_note.strip().upper()
 
-    # find index position of sample note
+    # find index position of source note
     index = NOTES.index(clean_note)
 
     # calculate new index and wraparound using modulo 12
@@ -165,16 +172,29 @@ def transpose_note(sample_note, halftones):
     return NOTES[new_index]
 
 
-def transpose_melody(sample_notes_list, halftones):
-        """Takes a list of notes and returns a new list with all notes transposed.
+def transpose_melody(source_notes_list, halftones):
+    """Takes a list of notes and returns a new list with all notes transposed.
         
-        Parameters:
-            sample_notes_list: user provided. list of note note names.
-            halftones: user provided. name of the key that the sample piece of music is written in. (major, or relative minor)
-        Return Type:
-            A list of strings representing the transposed notes.
-        """
+    Parameters:
+        source_notes_list: user provided. list of note note names.
+        halftones: user provided. name of the key that the source piece of music is written in. (major, or relative minor)
+    Return Type:
+        A list of strings representing the transposed notes.
+    """
+    # Create a list to store the transposed results
+    new_transposed_melody = []
 
+    # Loop over every note in source_notes_list.
+    for note in source_notes_list:
+
+    # Call transpose_note(note, halftones) for each note append the returned string to transposed_melody.
+        new_note = transpose_note(note, halftones)
+
+        # append the returned string to transposed_melody.
+        new_transposed_melody.append(new_note)
+
+    # Return transposed_melody.
+    return new_transposed_melody
 
 # Call main to start this program.
 if __name__ == "__main__":
