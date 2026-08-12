@@ -29,6 +29,11 @@ def test_get_key_signature_sharps_flats():
     # Test case/space handling
     assert get_key_signature_sharps_flats("  G MAJOR ") == "G Major: 1 sharp (F#)"
 
+    # Test for b (flats)
+    assert get_key_signature_sharps_flats("bb major") == "Bb Major: 2 flats (Bb, Eb)"
+
+    # test for # (sharps)
+
     # Test missing key
     assert get_key_signature_sharps_flats("C Dorian") is None
 

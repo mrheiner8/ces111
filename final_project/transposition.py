@@ -83,7 +83,8 @@ def main():
     net_offset = source_offset - target_offset
 
     # get key input
-    key_name = input("What key is you source music in?: ") 
+    key_name = input('What key is you source music in? (Use a lower case"b" for flat. Use "#" for sharp): ') 
+    key_name = key_name
 
     #get note input
     source_notes = input("What are the note names you need transposed (separated by commas, e.g., c, d#, eb): ") 
