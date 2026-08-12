@@ -4,7 +4,7 @@ Program: W05 Final Project Music Transposition Tool
 Author: Michael Heiner
 
 Description:
-    #
+    The program gets the name of a target instrument, a source instrument, source key signature, source list of note names. Then transposes the key signature and note names for the target instrument. This tool is useful for musicians that need to transpose music that is written for a different instrument. 
 """
 import csv
 
@@ -67,40 +67,71 @@ def main():
 
     # Call the reading function and store the result
     instruments_dict = read_instruments("instruments.csv")
-    
-    # Print the dictionary to verify it loaded correctly!
-    print(instruments_dict)
 
     # Get instrument input
-    source_instrument_input = input("What is your target instrument of choice?: ") 
-    target_instrument_input = input("What instrument is your source music written for?: ") 
+    target_instrument_input = input("What is your target instrument of choice?: ") 
+    source_instrument_input = input("What instrument is your source music written for?: ") 
 
     # get offset variables
     source_offset = get_instrument_name(source_instrument_input, instruments_dict)
     target_offset = get_instrument_name(target_instrument_input, instruments_dict)
 
     #calculate net offset
-    net_offset = source_offset - target_offset
+    net_offset =  source_offset - target_offset
 
     # get key input
-    key_name = input('What key is you source music in? (Use a lower case"b" for flat. Use "#" for sharp): ') 
-    key_name = key_name
+    key_name = input('What key is your source music in? (Use a lower case"b" for flat. Use "#" for sharp and specify major or minor. EX "C# major"): ') 
 
     #get note input
     source_notes = input("What are the note names you need transposed (separated by commas, e.g., c, d#, eb): ") 
 
+    # parse the source notes list
+    clean_source_notes = []
+    # Check if commas exist first 
+    if "," in source_notes:
+        for note in source_notes.split(","):
+            # ignore empty spaces
+            if note.strip():
+                clean_source_notes.append(note.strip())
 
-"""
-print(f"/nYour transposed key signature is {G Major: 1 sharp (F#)}")
+    # If no commas, check for spaces
+    elif " " in source_notes:
+        for note in source_notes.split():
+            clean_source_notes.append(note.strip())
+    # Single word/string with no spaces or commas
+    else:
+        for char in source_notes:
+            clean_source_notes.append(char)
 
-print(f"/nYour transposed note names are: {G, B, A, C, D, E, F#, G}")
+    key = key_name.split()
+    root = key[0]
+    mode = key[1]
 
-If the returned key was F major it would read
+    new_root = transpose_note(root, net_offset, use_flats=False)
 
-Your transposed key signature is F Major: 1 flat (Bb)
+    new_key = f"{new_root} {mode}".lower()
 
-Your transposed note names are: F, G, Bb, A, C, D, E, F 
-"""
+    target_key_description = get_key_signature_sharps_flats(new_key)
+
+    if target_key_description is None:
+
+        new_root = transpose_note(root, net_offset, use_flats=True)
+        new_key = f"{new_root} {mode}".lower()
+
+        target_key_description = get_key_signature_sharps_flats(new_key)
+
+    print(f"\nYour transposed key signature is {target_key_description}")
+
+    use_flats = "flat" in target_key_description.lower()
+
+    try:
+        notes_list = transpose_melody(clean_source_notes, net_offset, use_flats)
+        output_notes_str = ", ".join(notes_list)
+        print(f"\nYour transposed note names are: {output_notes_str}")
+    except ValueError:
+        print("Error: could not process notes")
+
+
 def read_instruments(filename):
     """
     This function reads the instrument data from the csv file passed to the function in the filename parameter. The dictionary key is contained in the csv data column indicated by the key_column_index parameter, the value of each dictionary item is the list derived from the values in the row of the csv file. Function returns a dictionary of instruments.
@@ -147,51 +178,55 @@ def get_key_signature_sharps_flats(key_name):
         A str with key name and signature (the sharps or flats written on the staff) 
     """
     clean_key = key_name.strip().lower()
-
+    
     return KEYS_INFO.get(clean_key)
 
 
-def transpose_note(source_note, halftones):
+def transpose_note(source_note, halftones, use_flats=False):
     """
     Takes a note string (e.g., "C") and integer shift (e.g., 2), and returns the new note (e.g., "D").
 
     Parameters:
         source_note: user provided. note name
         halftones: user provided. name of the key that the source piece of music is written in. (major, or relative minor)
+        use_flats: bool (default False). Controls whether to return note names from FLAT_NOTES instead of NOTES.
     Return Type:
         A str with the new transposed note. 
     """
     #Clean up note name
     clean_note = source_note.strip().upper()
 
+    # Swap it if it exists in NOTE_TRANSLATION:
+    translated_note = NOTE_TRANSLATION.get(clean_note, clean_note)
+    
     # find index position of source note
-    index = NOTES.index(clean_note)
+    index = NOTES.index(translated_note)
 
     # calculate new index and wraparound using modulo 12
     new_index =(index + halftones) % 12
 
-    return NOTES[new_index]
+    if use_flats:
+        return FLAT_NOTES[new_index]
+    else:
+        return NOTES[new_index]
 
 
-def transpose_melody(source_notes_list, halftones):
+def transpose_melody(source_notes_list, halftones, use_flats=False):
     """Takes a list of notes and returns a new list with all notes transposed.
         
     Parameters:
         source_notes_list: user provided. list of note note names.
         halftones: user provided. name of the key that the source piece of music is written in. (major, or relative minor)
+        use_flats: bool (default False). Controls whether to return note names from FLAT_NOTES instead of NOTES.
     Return Type:
         A list of strings representing the transposed notes.
     """
     # Create a list to store the transposed results
     new_transposed_melody = []
 
-    # Loop over every note in source_notes_list.
+    # Loop over every note in source_notes_list. Call transpose_note(note, halftones) for each note append the returned string to transposed_melody.append the returned string to transposed_melody.
     for note in source_notes_list:
-
-    # Call transpose_note(note, halftones) for each note append the returned string to transposed_melody.
-        new_note = transpose_note(note, halftones)
-
-        # append the returned string to transposed_melody.
+        new_note = transpose_note(note, halftones, use_flats)
         new_transposed_melody.append(new_note)
 
     # Return transposed_melody.

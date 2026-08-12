@@ -33,6 +33,7 @@ def test_get_key_signature_sharps_flats():
     assert get_key_signature_sharps_flats("bb major") == "Bb Major: 2 flats (Bb, Eb)"
 
     # test for # (sharps)
+    assert get_key_signature_sharps_flats("f# minor") == "F# Minor: 3 sharps (F#, C#, G#)"
 
     # Test missing key
     assert get_key_signature_sharps_flats("C Dorian") is None
@@ -44,6 +45,9 @@ def test_transpose_note():
 
     # Test case/space handling
     assert transpose_note("  c ",-2) == "A#"
+
+    # Test translation handling
+    assert transpose_note("b#",-2) == "A#"
 
     # Test 0
     assert transpose_note("C",0) == "C"
