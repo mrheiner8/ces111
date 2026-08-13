@@ -100,8 +100,7 @@ def main():
             clean_source_notes.append(note.strip())
     # Single word/string with no spaces or commas
     else:
-        for char in source_notes:
-            clean_source_notes.append(char)
+       clean_source_notes.append(source_notes.strip())
 
     key = key_name.split()
     root = key[0]
